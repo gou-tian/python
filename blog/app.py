@@ -5,12 +5,12 @@ from flask_bootstrap import Bootstrap
 app = Flask(__name__)
 manager = Manager(app)
 
+
 @app.route('/')
 def index():
     user_agent = request.headers.get('User-Agent')
-    response = make_response('这是页面缓存！')
-    response.set_cookie('dumpling', 'blog')
-    return render_template('index.html', browser=user_agent, cookies=response)
+    # return render_template('index.html', browser=user_agent, cookies=response)
+    return render_template('index.html')
 
 
 @app.route('/about')

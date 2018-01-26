@@ -3,10 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <title>饺子博</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
-    <h1>欢迎还来到饺子的Blog</h1>
-    <p>你的浏览器是: {{browser}}</p>
-    <p>页面缓存：{{cookies}}</p>
+    <!-- 顶部区域 -->
+    <div class="top-bar clearfix">
+        <!-- 导航 -->
+        <ul class="top-nav pull-right clearfix">
+            <li><a href="javascript:;">首页 | Home</a></li>
+            <li><a href="javascript:;">Python</a></li>
+            <li><a href="javascript:;">JavaScript</a></li>
+            <li><a href="javascript:;">Css|Style</a></li>
+            <li><a href="javascript:;">关于我 | About Me</a></li>
+        </ul>
+    </div>
+    <!-- 主体区域 -->
+    <div class="main pad-16 clearfix">
+        <!-- 侧边导航 -->
+        <div class="sidebar pull-left">
+            <!-- 用户信息 -->
+            <div class="user">
+                <div class="user-info pad-16">
+                    <!-- 用户头像 -->
+                    <img src="{{ url_for('static', filename='img/temp-1.jpg') }}" alt="头像">
+                    <!-- 用户昵称 -->
+                    <h3>幸福的饺子</h3>
+                    <!-- 地址 -->
+                    <p>
+                        <svg aria-hidden="true" class="octicon octicon-location" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+                            <path fill-rule="evenodd" d="M6 0C2.69 0 0 2.5 0 5.5 0 10.02 6 16 6 16s6-5.98 6-10.5C12 2.5 9.31 0 6 0zm0 14.55C4.14 12.52 1 8.44 1 5.5 1 3.02 3.25 1 6 1c1.34 0 2.61.48 3.56 1.36.92.86 1.44 1.97 1.44 3.14 0 2.94-3.14 7.02-5 9.05zM8 5.5c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path>
+                        </svg>
+                        <!-- 获取用户填写的所在位置 -->
+                        <span>中国·山西·太原</span>
+                    </p>
+                    <!-- 电子邮件 -->
+                    <p>
+                        <svg aria-hidden="true" class="octicon octicon-mail" height="16" version="1.1" viewBox="0 0 14 16" width="14">
+                            <path fill-rule="evenodd" d="M0 4v8c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1H1c-.55 0-1 .45-1 1zm13 0L7 9 1 4h12zM1 5.5l4 3-4 3v-6zM2 12l3.5-3L7 10.5 8.5 9l3.5 3H2zm11-.5l-4-3 4-3v6z"></path>
+                        </svg>
+                        <!-- 用户电子邮件 -->
+                        <a href="mailto:gousky@126.com">gousky@126.com</a>
+                    </p>
+                    <!-- 博客地址 -->
+                    <p>
+                        <svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+                            <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                        </svg>
+                        <!-- 用户博客地址 -->
+                        <a href="https://goutian.win">https://goutian.win</a>
+                    </p>
+                </div>
+            </div>
+            <!-- 页面组件 -->
+            <!-- 最新文章 -->
+            <dl class="widget">
+                <dt class="widget-title">最新文章</dt>
+                <!-- 链接到对应文章 -->
+                <dd class="widget-list"><a href="javascript:;">[Python] Django服务器安装及配置</a></dd>
+                <dd class="widget-list"><a href="javascript:;">垂直居中实现方式总结</a></dd>
+                <dd class="widget-list"><a href="javascript:;">简单的数值过滤器</a></dd>
+            </dl>
+            <!-- 最近回复 -->
+            <dl class="widget">
+                <dt class="widget-title">最近回复</dt>
+                <!-- 链接到回复文章下的对应内容 -->
+                <dd class="widget-list"><a href="javascript:;">天之剑：</a>非常使用，收藏保留！作者幸苦了！</dd>
+                <dd class="widget-list"><a href="javascript:;">蚂蚁：</a>东西非常实用</dd>
+            </dl>
+            <!-- 分类 -->
+            <dl class="widget">
+                <dt class="widget-title">分类</dt>
+                <!-- 链接到对应分类 -->
+                <dd class="widget-list"><a href="javascript:;">Python</a></dd>
+                <dd class="widget-list"><a href="javascript:;">css</a></dd>
+                <dd class="widget-list"><a href="javascript:;">JavaScript</a></dd>
+            </dl>
+        </div>
+        <!--主体内容-->
+        <div class="main-body pull-left">
+            <div class="page">
+                <h2 class="page-title">
+                    <a href="javascript:;">解决移动滚动页面卡顿方法</a>
+                </h2>
+                <div class="article-info">
+                    <p class="author">
+                        <span>作者:</span>
+                        <a href="javascript:;">饺子</a>
+                    </p>
+                    <p class="time">
+                        <span>时间:</span>
+                        <em>2018-01-26</em>
+                    </p>
+                    <p class="classfiy">
+                        <span>分类:</span>
+                        <a href="javascript:;">css/html</a>
+                    </p>
+                </div>
+                <div class="page-body">
+                    <h1>-webkit-overflow-scrolling</h1>
+                    <h2>概述</h2>
+                    <p>-webkit-overflow-scrolling 属性控制元素在移动设备上是否使用滚动回弹效果.</p>
+                    <p>在样式表对应的class里添加属性</p>
+                    <h3>值:auto</h3>
+                    <p>-webkit-overflow-scrolling: auto;<br>
+                    使用普通滚动, 当手指从触摸屏上移开，滚动会立即停止。</p>
+                    <h3>值:touch</h3>
+                    <p>-webkit-overflow-scrolling: touch;<br>
+                    使用具有回弹效果的滚动, 当手指从触摸屏上移开，内容会继续保持一段时间的滚动效果。继续滚动的速度和持续的时间和滚动手势的强烈程度成正比。同时也会创建一个新的堆栈上下文。</p>
+                </div>
+            </div>
+            <div class="page">
+                <h2 class="page-title">
+                    <a href="javascript:;">解决移动滚动页面卡顿方法</a>
+                </h2>
+                <div class="article-info">
+                    <p class="author">
+                        <span>作者:</span>
+                        <a href="javascript:;">饺子</a>
+                    </p>
+                    <p class="time">
+                        <span>时间:</span>
+                        <em>2018-01-26</em>
+                    </p>
+                    <p class="classfiy">
+                        <span>分类:</span>
+                        <a href="javascript:;">css/html</a>
+                    </p>
+                </div>
+                <div class="page-body">
+                    <h1>-webkit-overflow-scrolling</h1>
+                    <h2>概述</h2>
+                    <p>-webkit-overflow-scrolling 属性控制元素在移动设备上是否使用滚动回弹效果.</p>
+                    <p>在样式表对应的class里添加属性</p>
+                    <h3>值:auto</h3>
+                    <p>-webkit-overflow-scrolling: auto;<br>
+                    使用普通滚动, 当手指从触摸屏上移开，滚动会立即停止。</p>
+                    <h3>值:touch</h3>
+                    <p>-webkit-overflow-scrolling: touch;<br>
+                    使用具有回弹效果的滚动, 当手指从触摸屏上移开，内容会继续保持一段时间的滚动效果。继续滚动的速度和持续的时间和滚动手势的强烈程度成正比。同时也会创建一个新的堆栈上下文。</p>
+                </div>
+            </div>
+            <!-- 分页 -->
+            <ol class="page-navigator">
+            <li class="prev">
+                <a href="javascript:;">« 前一页</a>
+            </li>
+            <li class="current">
+                <a href="javascript:;">1</a>
+            </li>
+            <li>
+                <a href="javascript:;">2</a>
+            </li>
+            <li class="next">
+                <a href="javascript:;">后一页 »</a>
+            </li>
+        </ol>
+        </div>
+    </div>
+    <!-- 底部区域 -->
+    <div class="footer">
+        <span>2018-2019</span> <a href="https://goutian.win/">饺子</a>
+    </div>
 </body>
 </html>
