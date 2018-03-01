@@ -1,10 +1,12 @@
 from flask import Flask, request, make_response, render_template, url_for
 from flask_script import Manager
 import json
+from api import api_sql as sql
 from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
 manager = Manager(app)
+mysql = sql.Api_mySql()
 
 # 初始化页面（首页）
 @app.route('/')
@@ -31,10 +33,9 @@ def nav():
         {'title': 'Css|Style', 'url': 'javascript:;'},
         {'title': '关于我 | About Me', 'url': '/about'}
     ]
-    print('request.method', request.method)
-    res = navDefaultList
-    print(res)
-
+    # mysql.query('gt_metas', 'name')
+    # print('request.method', request.method)
+    res = mysql.key_query('gt_metas', 'category', 'type')
     return json.dumps(res)
 
 # 以下为测试单元

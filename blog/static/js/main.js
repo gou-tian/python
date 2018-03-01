@@ -28,11 +28,15 @@
             for(; i < len; i++) {
                 var li = doc.createElement('li'),
                     a = doc.createElement('a');
-                a.innerText = data[i].title;
-                a.setAttribute('href',data[i].url);
+                a.innerText = data[i].name;
+                a.setAttribute('href',data[i].url || 'javascript:;');
                 li.appendChild(a);
                 ul.appendChild(li);
             }
+            // a.innerText = '关于我 | About ';
+            // a.setAttribute('href','/about');
+            // li.appendChild(a);
+            // ul.appendChild(li);
             // 添加到页面
             insertEl.appendChild(ul);
         }
