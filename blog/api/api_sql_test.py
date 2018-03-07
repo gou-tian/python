@@ -19,17 +19,21 @@ class Api_mySql:
             # 提交到数据库执行
             self.db.commit()
         except:
+            print('open_sql', 'Error')
             # 如果发生错误则回滚
             self.db.rollback()
 
-
     def open_sql(self, conditions="SELECT VERSION()"):
         '''打开数据，并执行参数'''
-        # 使用 execute()  方法执行 SQL 查询
-        self.cursor.execute(conditions)
-        # 使用 fetchall() 接收全部的返回结果行.
-        data = self.cursor.fetchall()
-        self.result = data
+        print(conditions)
+        try:
+            # 使用 execute()  方法执行 SQL 查询
+            self.cursor.execute(conditions)
+            # 使用 fetchall() 接收全部的返回结果行.
+            data = self.cursor.fetchall()
+            self.result = data
+        except:
+            print('open_sql', 'Error')
 
     def close_sql(self):
         # 关闭数据库连接
@@ -45,8 +49,8 @@ class Api_mySql:
         self.open_sql(sql)
         result = []
         for res in self.result:
-            print(res)
-            print('-'*50)
+            # print(res)
+            # print('-'*50)
             result.append({
             'mid': res[0],
             'name': res[1],
@@ -57,7 +61,7 @@ class Api_mySql:
             'order': res[6],
             'parent': res[7]
         })
-        self.close_sql()
+        # self.close_sql()
         # print(result)
         return result
 

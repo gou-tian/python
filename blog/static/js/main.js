@@ -29,7 +29,13 @@
                 var li = doc.createElement('li'),
                     a = doc.createElement('a');
                 a.innerText = data[i].name;
-                a.setAttribute('href',data[i].url || 'javascript:;');
+                a.setAttribute('href',data[i].slug || 'javascript:;');
+                a.setAttribute('data-mid', data[i].mid);
+                // a.setAttribute('target', '_blank');
+                a.addEventListener('click', function(ev){
+                    console.log(this);
+                    return false;
+                }, false);
                 li.appendChild(a);
                 ul.appendChild(li);
             }
@@ -38,7 +44,31 @@
             // li.appendChild(a);
             // ul.appendChild(li);
             // 添加到页面
+            // $('.top-nav').on('click','li>a', function(){
+            //     console.log(this);
+            //     return false;
+            // });
+            li.addEventListener('click', function(ev){
+                /*var li = this.children,
+                    i = 0,
+                    len = li.length;
+                for(; i < len; i++) {
+                    li[i].index = i;
+                    li[i].addEventListener('click', function(ev){
+
+                        for(var j = 0; j < len; j++) {
+                            if (j === this.index) {
+                                console.log(this);
+                            }
+                        }
+
+                        return false;
+                    })
+                }*/
+                console.log(this);
+            }, false);
             insertEl.appendChild(ul);
+
         }
         return {
             ajax: ajax,
@@ -52,6 +82,7 @@
            console.log(res, typeof res);
            utils.createNavList(res);
         });
+        console.log($('.top-nav'))
         // 以下为测试ajax get和post方法
         /*utils.ajax.get('ajax_return',{'name': 'jack', 'age': 32}, function(res){
            console.log(res, typeof res);
