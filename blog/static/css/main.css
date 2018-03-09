@@ -14,14 +14,14 @@
     padding-right: 10px;
 }
 .top-nav > li:hover {
-    color: white;
     cursor: pointer;
 }
 .top-nav > li, .top-nav > li > a {
+    display: inline-block;
     transition: .5s;
 }
 .top-nav > li:hover > a {
-    color: white;
+    color: darkred;
 }
 /* 页面主体 */
 .main {

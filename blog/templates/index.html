@@ -2,14 +2,25 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>饺子博</title>
+    <title>{{ name }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/md.css') }}">
+{#    <link rel="stylesheet" href="{{ url_for('static', filename='css/github.css') }}">#}
 </head>
 <body>
     <!-- 顶部区域 -->
     <div class="top-bar clearfix">
         <!-- 导航 -->
+        {% block topNav %}
+            <ul class="top-nav pull-right clearfix">
+                {% for item in nav %}
+                    <li>
+                        <a target="_blank" data-mid="{{ item.mid }}" href="{{ item.slug }}">{{ item.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endblock topNav %}
     </div>
     <!-- 主体区域 -->
     <div class="main pad-16 clearfix">
@@ -75,68 +86,34 @@
         </div>
         <!--主体内容-->
         <div class="main-body pull-left">
-            <div class="page">
-                <h2 class="page-title">
-                    <a href="javascript:;">解决移动滚动页面卡顿方法</a>
-                </h2>
-                <div class="article-info">
-                    <p class="author">
-                        <span>作者:</span>
-                        <a href="javascript:;">饺子</a>
-                    </p>
-                    <p class="time">
-                        <span>时间:</span>
-                        <em>2018-01-26</em>
-                    </p>
-                    <p class="classfiy">
-                        <span>分类:</span>
-                        <a href="javascript:;">css/html</a>
-                    </p>
-                </div>
-                <div class="page-body">
-                    <h1>-webkit-overflow-scrolling</h1>
-                    <h2>概述</h2>
-                    <p>-webkit-overflow-scrolling 属性控制元素在移动设备上是否使用滚动回弹效果.</p>
-                    <p>在样式表对应的class里添加属性</p>
-                    <h3>值:auto</h3>
-                    <p>-webkit-overflow-scrolling: auto;<br>
-                    使用普通滚动, 当手指从触摸屏上移开，滚动会立即停止。</p>
-                    <h3>值:touch</h3>
-                    <p>-webkit-overflow-scrolling: touch;<br>
-                    使用具有回弹效果的滚动, 当手指从触摸屏上移开，内容会继续保持一段时间的滚动效果。继续滚动的速度和持续的时间和滚动手势的强烈程度成正比。同时也会创建一个新的堆栈上下文。</p>
-                </div>
-            </div>
-            <div class="page">
-                <h2 class="page-title">
-                    <a href="javascript:;">解决移动滚动页面卡顿方法</a>
-                </h2>
-                <div class="article-info">
-                    <p class="author">
-                        <span>作者:</span>
-                        <a href="javascript:;">饺子</a>
-                    </p>
-                    <p class="time">
-                        <span>时间:</span>
-                        <em>2018-01-26</em>
-                    </p>
-                    <p class="classfiy">
-                        <span>分类:</span>
-                        <a href="javascript:;">css/html</a>
-                    </p>
-                </div>
-                <div class="page-body">
-                    <h1>-webkit-overflow-scrolling</h1>
-                    <h2>概述</h2>
-                    <p>-webkit-overflow-scrolling 属性控制元素在移动设备上是否使用滚动回弹效果.</p>
-                    <p>在样式表对应的class里添加属性</p>
-                    <h3>值:auto</h3>
-                    <p>-webkit-overflow-scrolling: auto;<br>
-                    使用普通滚动, 当手指从触摸屏上移开，滚动会立即停止。</p>
-                    <h3>值:touch</h3>
-                    <p>-webkit-overflow-scrolling: touch;<br>
-                    使用具有回弹效果的滚动, 当手指从触摸屏上移开，内容会继续保持一段时间的滚动效果。继续滚动的速度和持续的时间和滚动手势的强烈程度成正比。同时也会创建一个新的堆栈上下文。</p>
-                </div>
-            </div>
+            {% block page_list %}
+                {% for key, val in list.items() %}
+                    {% for bd in val %}
+                        <div class="page">
+                            <h2 class="page-title">
+                                <a href="javascript:;">{{ bd.title }}</a>
+                            </h2>
+                            <div class="article-info">
+                                <p class="author">
+                                    <span>作者:</span>
+                                    <a href="javascript:;">饺子</a>
+                                </p>
+                                <p class="time">
+                                    <span>时间:</span>
+                                    <em>2018-01-26</em>
+                                </p>
+                                <p class="classfiy">
+                                    <span>分类:</span>
+                                    <a href="javascript:;">css/html</a>
+                                </p>
+                            </div>
+                            <div class="page-body">
+                                {{ bd.text | safe }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endblock page_list %}
             <!-- 分页 -->
             <ol class="page-navigator">
             <li class="prev">

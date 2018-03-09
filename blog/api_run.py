@@ -1,22 +1,37 @@
 #-*-coding:utf-8-*-
 from api import apiSql as sql
+import json
+import markdown
 # "localhost", "blog", "gtian0122", "blog", charset='utf8'
 mysql = sql.MYSQL({
     'host': 'localhost',
     'sql_name': 'blog',
-    'user': 'blog',
+    'user': 'root',
     'password': 'gtian0122'
 }, charset='utf8')
 
-# mysql.open_sql()
-# mysql.query('gt_metas', 'category', 'type')
+
+def get_html():
+    list = article_column_relation()
+    res = {}
+    res.update(list)
+    for key, val in res.items():
+        for mk in val:
+            mk['text'] = markdown_conversion_html(mk['text'])
+    return res
+
+
+def markdown_conversion_html(markdown_doc):
+    extension_list = ['markdown.extensions.extra', 'markdown.extensions.codehilite', 'markdown.extensions.tables',
+            'markdown.extensions.toc']
+    return markdown.markdown(markdown_doc, extensions=extension_list)
+
+
 def get_nav():
     query_result = query_nav('gt_metas', 'category', 'type')
     result = []
     print('query_result', query_result)
     for res in query_result:
-        # print(res)
-        # print('-'*50)
         result.append({
             'mid': res[0],
             'name': res[1],
@@ -42,6 +57,7 @@ def query_nav(tab_name, column_val, column_name):
     # print(sql)
     return mysql.query(sql)
 
+
 # 插入/更新栏目数据
 def add_update_nav(gt_metas, data):
     sql = 'INSERT INTO ' + gt_metas + \
@@ -65,16 +81,15 @@ def article_column_relation():
     # 查询文章对应列表
     article = mysql.query('SELECT * FROM blog.gt_contents where slug!="start-page"')
     article_format = []
-    # print(relation[0], '\n', column_type[0], '\n', article[0])
+
     for rf in relation[:]:
         relation_format.append({
           'cid': rf[0],
           'mid': rf[1]
         })
-    # print(relation_format[0])
     for ctf in column_type[:]:
         column_type_format.append({
-            'min': ctf[0],
+            'mid': ctf[0],
             'name': ctf[1],
             'slug': ctf[2],
             'type': ctf[3],
@@ -83,7 +98,6 @@ def article_column_relation():
             'order': ctf[6],
             'parent': ctf[7]
         })
-    # print(column_type_format[0])
     for af in article[:]:
         article_format.append({
         'cid': af[0],
@@ -104,10 +118,10 @@ def article_column_relation():
         'allowFeed': af[15],
         'parent': af[16]
     })
-    # print(article_format[0])
-    return_results(relation_format[:], column_type_format[:], article_format[:])
+    return return_results(relation_format[:], column_type_format[:], article_format[:])
 
 
+# 格式化数据
 def return_results(relation, column_type, article):
     '''
     返回栏目对应的文章列表
@@ -116,87 +130,29 @@ def return_results(relation, column_type, article):
     :param article: 获取文章cid
     :return: 返回栏目对应的文章列表
     '''
-    count = 0
-    num = 0
-    print('\n', 'relation len:', len(relation), '\n', 'column_type len:',
-          len(column_type), '\n', 'article len:', len(article), '\n')
-    # print(relation)
-    article_temp = []
-    # while count < len(relation):
-    #     try:
-    #         while num < len(article):
-    #             # print(relation[count]['cid'] == article[num]['cid'])
-    #             if relation[count]['cid'] == article[num]['cid']:
-    #                 article_temp.append({
-    #                     'cid': article[num]['cid'],
-    #                     'body': article[num]
-    #                 })
-    #                 # print(relation[count]['cid'], article[num]['cid'])
-    #                 print("article_temp[num]['cid']", article_temp[num]['cid'])
-    #                 # if article_temp[num]['cid'] != None:
-    #                 #     if article_temp[num]['cid'] != article[num]['cid']:
-    #                 #         print(article_temp)
-    #                 #         article_temp.append({
-    #                 #             'cid': article[num]['cid'],
-    #                 #             'body': article[num]
-    #                 #         })
-    #                 # else:
-    #                 #     article_temp.append({
-    #                 #         'cid': article[num]['cid'],
-    #                 #         'body': article[num]
-    #                 #     })
-    #             print('count', count, 'num', num)
-    #             num+=1
-    #
-    #     except:
-    #         pass
-    #
-    #     count += 1
-    #     # try:
-    #     #     if relation[count]['cid']:
-    #     #         print('???', relation[count]['cid'] in article[count])
-    #     #         print('????', relation[count]['cid'], article[count]['cid'])
-    #     #         # if article[count]['cid'] == relation[count]['cid']:
-    #     #         #     print(article[count])
-    #     #     count += 1
-    #     # except:
-    #     #     return None
-
-    for k in relation:
-        # print(k)
-        for j in article:
-            if k['cid'] == j['cid']:
-                # pass
-                # print(k['cid'], j['cid'], k, j)
-                # print(j['cid'], article_temp)
-                print(j['cid'] in article_temp)
-                print('article_temp:', article_temp)
-                if len(article_temp) > 0:
-                    for v in article_temp:
-                        if j['cid'] in v:
-                            pass
+    res = {}
+    for info in article:
+        # 获取栏目对于关系表
+        for re in relation:
+            # 获取栏目名称
+            for cy in column_type:
+                if re['mid'] == cy['mid']:
+                    if re['cid'] == info['cid']:
+                        key = cy['slug']
+                        if key in res:
+                            res[key].append(info)
                         else:
-                            article_temp.append({
-                                'cid': j['cid'],
-                                'body': j
-                            })
-                else:
-                    article_temp.append({
-                        'cid': j['cid'],
-                        'body': j
-                    })
-    # print(article_temp)
-    for a in article_temp:
-        print(a)
-# -------------------------------------
+                            res[key] = []
+                            res[key].append(info)
+
+    return res
+
+
+# temp = article_column_relation()
+# print('\n', temp, '\n')
+# for k, v in temp.items():
+#     print('Temp\nkey:', k, 'val:', v)
+#     print('key:', k, 'val len', len(v))
+#     print('-' * 50)
 # get_nav()
-# add_update_nav('gt_metas',{
-#             'name': 'TRE',
-#             'slug': 'php',
-#             'type': 'category',
-#             'description': '',
-#             'count': 0,
-#             'order': 0,
-#             'parent': 0
-#         })
-article_column_relation()
+index()

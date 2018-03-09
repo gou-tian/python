@@ -14,7 +14,7 @@
             }
         };
         // 创建页面导航
-        function createNavList(data, insertEl, class_name) {
+        function createNavList(data, callback, insertEl, class_name) {
             // 设置添加元素位置
             insertEl = insertEl || doc.querySelector('.top-bar');
             // 设置样式列表
@@ -31,12 +31,10 @@
                 a.innerText = data[i].name;
                 a.setAttribute('href',data[i].slug || 'javascript:;');
                 a.setAttribute('data-mid', data[i].mid);
-                // a.setAttribute('target', '_blank');
-                a.addEventListener('click', function(ev){
-                    console.log(this);
-                    return false;
-                }, false);
+                a.setAttribute('target', '_blank');
+                a.addEventListener('click', callback, false);
                 li.appendChild(a);
+                // li.addEventListener('click', callback, false);
                 ul.appendChild(li);
             }
             // a.innerText = '关于我 | About ';
@@ -44,30 +42,7 @@
             // li.appendChild(a);
             // ul.appendChild(li);
             // 添加到页面
-            // $('.top-nav').on('click','li>a', function(){
-            //     console.log(this);
-            //     return false;
-            // });
-            li.addEventListener('click', function(ev){
-                /*var li = this.children,
-                    i = 0,
-                    len = li.length;
-                for(; i < len; i++) {
-                    li[i].index = i;
-                    li[i].addEventListener('click', function(ev){
-
-                        for(var j = 0; j < len; j++) {
-                            if (j === this.index) {
-                                console.log(this);
-                            }
-                        }
-
-                        return false;
-                    })
-                }*/
-                console.log(this);
-            }, false);
-            insertEl.appendChild(ul);
+            // insertEl.appendChild(ul);
 
         }
         return {
@@ -78,11 +53,29 @@
 
     w.onload = function(){
         // 创建页面导航
-        utils.ajax.get('nav', function(res){
-           console.log(res, typeof res);
-           utils.createNavList(res);
-        });
-        console.log($('.top-nav'))
+        var list = [];
+        (function(){
+            var nav = doc.querySelectorAll('.top-nav>li');
+            var i = 0,
+                len = nav.length;
+            for(; i < len; i++) {
+                nav[i].index = i;
+                nav[i].addEventListener('click', function(ev){
+                    ev.preventDefault();
+                    var child = $(this).children('a');
+                    console.log(child.data());
+                    if (list.length > 0) {
+                        console.log(list);
+                    } else {
+                        utils.ajax.get('list', function(res){
+                           console.log('article_column_relation',res.data);
+                           list = res.data;
+                        }, 'json');
+                    }
+                    return false;
+                }, false)
+            }
+        }());
         // 以下为测试ajax get和post方法
         /*utils.ajax.get('ajax_return',{'name': 'jack', 'age': 32}, function(res){
            console.log(res, typeof res);
