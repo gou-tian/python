@@ -78,7 +78,7 @@ locket==0.2.0
 lockfile==0.12.2
 lxml==4.1.0
 Markdown==2.6.11
-markdown2==2.3.5
+markdown2==2.4.0
 MarkupSafe==1.0
 matplotlib==2.1.0
 mccabe==0.6.1
